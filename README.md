@@ -2,6 +2,7 @@
 
 
 ## Components
+
 <div align="center">
-<img src="components.svg" width=500/>
+<img src="components.png" width=1024/>
 </div>
