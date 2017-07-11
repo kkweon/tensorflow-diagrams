@@ -1,0 +1,166 @@
+@startuml
+
+package tf.app {
+    node "flags"
+}
+note right: "argparse is preferred instead of tf.flags"
+
+package "Not used often" {
+    package tf.compat {
+        node "Python 2 vs 3 compatability"
+    }
+    package tf.errors {
+        node "Exceptions"
+    }
+    package tf.graph_util {
+        node "convert var to const"
+        node "sub graph"
+    }
+    package tf.python_io {
+        node "Functions for TFRecord"
+    }
+    package tf.saved_model {
+        node "Universal Serialization Format"
+    }
+    package tf.sets {
+        node "Set Operations"
+    }
+    package tf.spectral {
+        node "Fourier Transforms"
+    }
+    package tf.sysconfig {
+        node "Get a path to lib & C++ Header Files"
+    }
+}
+
+package "Usefule to know" {
+    package tf.estimator {
+        node "Estimator"
+    }
+    package tf.gfile {
+        node "mkdirs"
+        node "glob"
+        node "walk"
+    }
+
+    package tf.image {
+        node "Image Processing"
+    }
+    package tf.logging {
+        node "log"
+        node "info"
+        node "warn"
+    }
+    package tf.metrics {
+        node "Accuracy"
+        node "Recall"
+        node "Precision"
+    }
+    package tf.test #orange {
+        node "TestSuite & Assert"
+    }
+    note "do TDD w/ np.testing & py.test" as test_note
+    test_note .. tf.test
+    package tfdbg #orange {
+        node "TF Debugger"
+    }
+    
+}
+
+package tf.contrib #Beige {
+    node bayesflow
+    node cloud
+    node copy_graph
+    node crf
+    node cudnn_rnn
+    node data
+    node distributions
+    node ffmpeg
+    node framework
+    node graph_editor
+    node image
+    node integrate
+    node keras
+    node layers
+    node learn
+    node legacy_seq2seq
+    node linalg
+    node linear_optimizer
+    node lookup
+    node losses
+    node memorystats
+    node metrics
+    node nccl
+    node nn
+    node opt
+    node rnn
+    node seq2seq
+    node sparsemax
+    node staging
+    node stateless
+    node stat_summarizer
+    node training
+    node util
+}
+
+nn .... tf.nn
+training .... tf.train
+losses .... tf.losses
+learn .... tf.estimator
+image .... tf.image
+layers .... tf.layers
+keras ---- tf.estimator : similar
+
+package "Should Know" #LightYellow {
+    package tf.layers  {
+        node "Pool"
+        node "Conv"
+        node "Dense"
+        node "Dropout"
+        node "BatchNorm"
+    }
+    note "High Level Layers" as highlevelnote
+    highlevelnote .. tf.layers
+
+    tf.layers -|> tf.nn : built top of low level nn
+    tf.estimator ---- tf.layers : works well together
+    tf.layers ---- tf.losses : works well together
+    tf.layers ---- tf.train : works well together
+
+    package tf.losses  {
+        node "MSE"
+        node "Hinge Loss"
+        node "Huber Loss"
+        node "Cross Entropy"
+    }
+    note "High Level Losses\nUse this" as loss_note
+    loss_note .. tf.losses
+
+    package tf.nn  {
+        node "Activations"
+        node "xw_plus_b"
+        node "Pool" as ppp
+        node "Conv" as ccc
+        node "L2_loss" as l222
+    }
+    note "Low Level Neural Net" as lowlevelnote
+    lowlevelnote .. tf.nn
+
+    package tf.summary  {
+        node "Summary for Tensorboard"
+    }
+
+    package tf.train #lime {
+        node "Optimizers"
+        node "Queues/Batch/Coordinator"
+        node "Checkpoints"
+        node "Global Step"
+        node "Monitored Session"
+        node "Hooks"
+        node "Saver"
+    }
+    note "Super Important" as train_note
+    train_note .. tf.train
+}
+
+@enduml
